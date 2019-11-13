@@ -126,7 +126,7 @@ You still might need a few additional tools installed on your system. Here is th
 
 _let us know if we missed any other dependencies here :D_
 
-NOTE: On Linux you might need to add a udev rule so that you get the needed permissions to access your badges USB interface. You will need to open `/etc/udev/reles.d/59-hadb19.rules` in a text editor and add the following rules in that file. When you change the rules make sure to unplug and plug in your badge again.
+NOTE: On Linux you might need to add a udev rule so that you get the needed permissions to access your badges USB interface. You will need to open `/etc/udev/rules.d/59-hadb19.rules` in a text editor and add the following rules in that file. When you change the rules make sure to unplug and plug in your badge again.
 
 ```
 ATTR{idVendor}=="1d50", ATTR{idProduct}=="614a", MODE="660", GROUP="plugdev", TAG+="uaccess"
@@ -199,15 +199,36 @@ Try writing a nice greeting text in the center of the screen.
 
 === Create a framebuffer
 
+Most graphics system except the background color is based on indexed color. Instead of storing 24bits of color information for each pixel of tiles sprites and the framebuffer, we are only storing an index that points to a color palette with 256 entries. The graphics hardware on the fly converts the indexes into real 24bit colors that are then sent to the LCD or HDMI interface.
+
 For our actual demo effect we will setup the framebuffer and draw our effect there.
 
 NOTE: I know it is bit hypocritical after raving about how the tile and sprite layers save us processing power but this is what I fealt like plaing with, so here we go. On the other hand it will show you why you want hardware acceleration at the end, so bare with me. :)
 
-...
+You can add the framebuffrer memory allocation and config code right after the background config.
+
+* First we need to do is allocate some memory:
+```
+fbmem=calloc(FB_WIDTH, FB_HEIGHT);
+```
+The nice sideeffect of using calloc is that the memory will be initialized with 0 so we don't have to do that in a separate step.
+
+* Second we have to tell the graphics hardware about the newly allocated framebuffer memory:
+```
+GFX_REG(GFX_FBPITCH_REG)=(17<<GFX_FBPITCH_PAL_OFF)|(FB_WIDTH<<GFX_FBPITCH_PITCH_OFF);
+```
+The first field in this register tells the graphics hardware that the framebuffer is using colors stored in the pallette from index number 17 to 255. This is essentially an offset added onto the color indecies stored in the framebuffer.
+
+The second field tells the graphics hardware how wide the framebuffer is.
+
+* Third we have to tell the graphics hardware where our framebuffer memory is located:
+```
+GFX_REG(GFX_FBADDR_REG)=((uint32_t)fbmem);
+```
 
 === Create the color palette
 
-xxx
+As described in the previous section, the framebuffer is using indexed color. To save you some time we have left a function to configure the color palette in the codebase. All you need to do is call the `\__crate_fire_palette();` function.
 
 === Draw the palette on the screen
 

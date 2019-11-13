@@ -160,11 +160,6 @@ void main(int argc, char **argv) {
 	// Generatinf the fire palette
 	__create_fire_palette();
 
-	// Clear the framebuffer
-	for (int i = 0; i < (FB_WIDTH * FB_HEIGHT); i++) {
-		fbmem[i] = 0;
-	}
-
 	// The IPL leaves us with a tileset that has tile 0 to 127 mapped to ASCII
 	// characters, so we do not need to load anything specific for this. In
 	// order to get some text out, we can use the /dev/console device that will

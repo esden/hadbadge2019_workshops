@@ -23,6 +23,29 @@ uint8_t *fbmem;
 								(((R) & 0xFF) <<  0))
 #define FB_PIX(X, Y) fbmem[(X) + ((Y) * FB_WIDTH)]
 
+void __create_fire_palette(void) {
+
+	// transparent to blue (leaving the first 16 for the tileset)
+	// this could be as well just black to blue, but why not. :)
+	for (int i = 0; i < 16; i++) {
+		GFXPAL[i+17] = COMP_COLOR(i << 2, 0, 0, i << 2);
+	}
+
+	// setting the remaining palette in one go
+	for (uint32_t i = 0; i < 32; i++) {
+		// blue to red
+		GFXPAL[i +  32] = COMP_COLOR(0xFF, i << 3, 0, 64 - (i << 1));
+		// red to yellow
+		GFXPAL[i +  64] = COMP_COLOR(0xFF, 0xFF, i << 3, 0);
+		// yellow to white
+		GFXPAL[i +  96] = COMP_COLOR(0xFF, 0xFF, 0xFF,   0 + (i << 2));
+		GFXPAL[i + 128] = COMP_COLOR(0xFF, 0xFF, 0xFF,  64 + (i << 2));
+		GFXPAL[i + 160] = COMP_COLOR(0xFF, 0xFF, 0xFF, 128 + (i << 2));
+		GFXPAL[i + 192] = COMP_COLOR(0xFF, 0xFF, 0xFF, 192 + i);
+		GFXPAL[i + 224] = COMP_COLOR(0xFF, 0xFF, 0xFF, 224 + i);
+	}
+}
+
 //Here is where the party begins
 void main(int argc, char **argv) {
 
