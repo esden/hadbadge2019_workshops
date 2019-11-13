@@ -2,3 +2,5 @@
 *.elf
 *.map
 build
+.DS_Store
+._*
