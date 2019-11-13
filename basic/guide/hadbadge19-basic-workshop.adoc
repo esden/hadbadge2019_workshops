@@ -289,17 +289,46 @@ NOTE: Now that you arrived here there is less of a chance that we will spoil any
 
 == A new SOC hardware
 
-xxx
+Now I know you are probably asking yourself why we went through all this. We could probably have done most of that more efficiently and with less trouble on a microcontroller with modern features.
+
+Well here we go. I don't think many microcontrollers can grow new hardware features. :D
 
 === Build and load the new SOC
 
-xxx
+Go into the `fpgasoc` subdirectory and check out the `comb_vid_filter` branch by running `git checkout comb_vid_filter`.
+
+In this branch we have added one more hardware feature to the graphics subsystem. Can you figure out what it is? You can see the diff by running `git diff master`.
+
+To build and load the modified SOC make sure your badge is running the IPL and is connected to your computer over USB and run the following commands:
+```
+cd soc
+make dfu_flash_all
+```
+
+This build process will take a while. It is synthesizing the new bitstream for your FPGA, building the new IPL (which should not be really necessary in this particular case) and then uses DFU to load the new code onto your badge.
+
+In some cases the synthesis fails with a timing error. In such case just run the `make` command once again and it should finish the process.
+
+The badge should be behaving the same way as before after that.
 
 === Use newly added hardware
 
-xxx
+If you read throught the diff you would see that there is a new definition in the `gloss` hardware register header. It is called `GFX_LAYEREN_FLT_GRAY` and can be set in the `GFX_LAYEREN_REG` register.
 
-== Conclusion
+Change your demo code to toggle that bit.
 
-xxx
+What happens?
 
+This is a very very simple demo what you can do if you can actually modify the hardware you are using.
+
+If you want to learn more and how to write some verilog continue to the advanced class where we build some logic! :D
+
+== Final notes
+
+I hope you had fun with this workshop. There is so much more to learn about the badge itself as well as FPGA development.
+
+Make sure to take part in the badge hacking that is happening all the time during Supercon.
+
+Shameless plug: Also if you want to have some more FPGA hardware to play with give the iCEBreaker a look. It is designed with FPGA beginners and developers in mind. It uses a smaller FPGA than the one on the badge but that results also in much faster synthesis times making the learning process slightly less cumbersome.
+
+See you around! :D
