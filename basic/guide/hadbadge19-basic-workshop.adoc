@@ -219,7 +219,7 @@ The nice sideeffect of using calloc is that the memory will be initialized with 
 ```
 GFX_REG(GFX_FBPITCH_REG)=(17<<GFX_FBPITCH_PAL_OFF)|(FB_WIDTH<<GFX_FBPITCH_PITCH_OFF);
 ```
-The first field in this register tells the graphics hardware that the framebuffer is using colors stored in the pallette from index number 17 to 255. This is essentially an offset added onto the color indecies stored in the framebuffer.
+The first field in this register tells the graphics hardware that the framebuffer is using colors stored in the pallette from index number 17 to 255. This is essentially an offset added onto the color indecies stored in the framebuffer. We need to leave the first 16 color palette entries for the tiles used for the text console. Down the road if you don't want to use those tiles, or replace them you can use the full color palette.
 
 The second field tells the graphics hardware how wide the framebuffer is.
 
@@ -238,23 +238,54 @@ TIP: To achieve some demo effects you can draw on the layers once and only manip
 
 === Draw the palette on the screen
 
-Now you can try out the palette that you have created. Just draw
+Now you can try out the palette that you have created. Just fill the framebuffer memory with values from 0 to 238. Remember that we only have 239 indecies avialable as the first 16 are used by the text console tiles.
+
+How does it look? :D
 
 === Draw random fire seeds
 
-xxx
+Now that we have the frame buffer set up and the color palette ready we can start working on our fire effect.
+
+First we need to populate the bottom most row of the framebuffer with random white/black pixels.
+
+We can use another handy hardware feature. The random number generator. If you read a value from `MISC_REG(MISC_NRG_REG)` you will be provided with a word full of random bits.
+
+Use those random bits to fill the last line of the framebuffer (`y = FB_HEIGHT -1`) with 0 or 238. You can use the `FB_PIX` to make access to the frame buffer pixel entries bit easier.
 
 === Render a frame af fire
 
-xxx
+Now we can implement the actual fire effect.
+
+* Iterate over all the pixels starting with the row that we just seeded with white pixels.
+* Average (add together and then divide by the amount of values added: `avg = (a+b+c+d)/4`) the value of:
+** The pixel you are on
+** The pixel to your left
+** The pixel to your right
+** The pixel above you
+* Decrement the value of the resulting average by 1 if the value is greater than 0.
+* Store the resulting value to the pixel above your position.
+
+NOTE: Don't forget to handle the first and last columns accordingly. For example don't add the pixel to your left when you are right at the left edge. ;)
+
+You can put all that code into a function so it is easier to call over and over again and to make your code easier to read.
+
+How does it look?
 
 === Loop the animation
 
-xxx
+Now that we have created one static frame of our fire effect. Try to write a loop function that keeps calling the draw function consisting of the random seed and render parts we wrote in the last two sections.
+
+You can check for a button press in that loop to exit your program gracefully.
+
+The current state of the buttons is stored in `MISC_REG(MISC_BTN_REG)` you can `&` it's value with `BUTTON_START` to mask out the other buttons. You can find the other defines and register definitions in `hadbadge2019_workshops-git/basic/fpgasoc/soc/ipl/gloss/mach_defines.h`.
 
 === Optimize framerate
 
-xxx
+Now that you have implemented the fire effect and it is animating you are probably bit disappointed about the framerate. Besides finding a faster processor we can also optimize our code a tiny bit.
+
+One possibility is to exit the rendering loop when we relize that all the pixels on the row we are on are equal to 0. This will essentially mean that there is only black left all the way to the end of the screen and there is nothing else for us to do.
+
+NOTE: Now that you arrived here there is less of a chance that we will spoil anything by telling you where to find our reference implementation of the effect. You can find it in the badge fpgasoc repository under the name `app-fire` and in the workshop repository in the `solution` directory. If you or your neighbor gets stuck someone probably point you to this note so you can take a look at the reference implementation. :)
 
 == A new SOC hardware
 
