@@ -21,7 +21,7 @@ uint8_t *fbmem;
 								(((R) & 0xFF) <<  0))
 #define FB_PIX(X, Y) fbmem[(X) + ((Y) * FB_WIDTH)]
 
-void __create_fire_palette(void) {
+void create_fire_palette(void) {
 
 	// transparent to blue (leaving the first 16 for the tileset)
 	// this could be as well just black to blue, but why not. :)
@@ -44,7 +44,7 @@ void __create_fire_palette(void) {
 	}
 }
 
-void __render_fire(void) {
+void render_fire(void) {
 	/* draw randomized fire seed row */
 	uint32_t rnd;
 	for (int x = 0; x < FB_WIDTH; x++) {
@@ -158,7 +158,7 @@ void main(int argc, char **argv) {
 	GFX_REG(GFX_FBADDR_REG)=((uint32_t)fbmem);
 
 	// Generatinf the fire palette
-	__create_fire_palette();
+	create_fire_palette();
 
 	// The IPL leaves us with a tileset that has tile 0 to 127 mapped to ASCII
 	// characters, so we do not need to load anything specific for this. In
@@ -184,7 +184,7 @@ void main(int argc, char **argv) {
 	int run = 1;
 	while(run) {
 		// Render a frame of the fire effect on the framebuffer layer
-		__render_fire();
+		render_fire();
 
 		// Exit when the start button is pressed
 		if (MISC_REG(MISC_BTN_REG) & BUTTON_START) {

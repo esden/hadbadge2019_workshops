@@ -159,6 +159,8 @@ Now that you have the toolchain and workshop repository installed we can try upl
 
 Does it work? If you have any questions or run into trouble let any of the helpers know, we are here to help. If you are working on this outside of the Supercon workshops join the hackaday.io chat or the 1BitSquared discord.
 
+NOTE: Make sure that when you are copying the `.elf` file to the badge that the copy process is really finished. In some cases the operating system buffers write operations to disks. This is meant to speed things up in normal use. In such case, the copying process might indicate that it finished, but the file is not actually fully written to the badge. On linux you can make sure the write process is finished by calling `sync`. This command will flush all your drive buffers and make sure data is all written physically to your drives.
+
 == First FPGA Badge Demo
 
 Now that we learned a bit about the badge and confirmed that the all the needed tools installed correctly we can get down to business and write a small demo effect. The badge Gateware design is on purpose designed to resemble a retro game console drawing on computer architectures from the 80' and 90' remixed with modern open source tools and cpu design.
@@ -228,11 +230,15 @@ GFX_REG(GFX_FBADDR_REG)=((uint32_t)fbmem);
 
 === Create the color palette
 
-As described in the previous section, the framebuffer is using indexed color. To save you some time we have left a function to configure the color palette in the codebase. All you need to do is call the `\__crate_fire_palette();` function.
+As described in the previous section, the framebuffer is using indexed color. To save you some time we have left a function to configure the color palette in the codebase. All you need to do is call the `crate_fire_palette();` function.
+
+This function steps through the palette entries and sets up the assigned colors.
+
+TIP: To achieve some demo effects you can draw on the layers once and only manipulate the color palette entries to achieve interesting animated effects without having to manipulate a lot of memory. See for example "plasma" effect.
 
 === Draw the palette on the screen
 
-xxx
+Now you can try out the palette that you have created. Just draw
 
 === Draw random fire seeds
 

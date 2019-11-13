@@ -23,7 +23,7 @@ uint8_t *fbmem;
 								(((R) & 0xFF) <<  0))
 #define FB_PIX(X, Y) fbmem[(X) + ((Y) * FB_WIDTH)]
 
-void __create_fire_palette(void) {
+void create_fire_palette(void) {
 
 	// transparent to blue (leaving the first 16 for the tileset)
 	// this could be as well just black to blue, but why not. :)
