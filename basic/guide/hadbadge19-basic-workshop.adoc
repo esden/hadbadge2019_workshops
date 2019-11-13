@@ -1,0 +1,247 @@
+= Introduction to the Hackaday Supercon 2019 Badge Hacking
+Piotr Esden-Tempski <piotr@1bitsquared.com>
+v0.1, 12 Nov 2019
+:doctype: book
+:imagesdir: images/
+//:pdf-page-size: Executive
+:pdf-page-size: Letter
+//:pdf-page-size: [5.5in, 8.5in]
+//:pdf-page-size: [6in, 9in]
+:media: prepress
+//:pdf-style: half
+//:pdf-style: pae
+:pdf-style: 6x9
+:pdf-stylesdir: ./themes
+:sectnums:
+:toc:
+:toclevels: 2
+:toc-placement!:
+ifdef::env-github[]
+:imagesdir: https://github.com/securelyfitz/LabManuals/blob/master/images
+endif::[]
+
+include::sections/macros.adoc[]
+
+toc::[]
+
+[preface]
+== Overview
+include::sections/objectives.adoc[]
+
+== Introduction
+
+The Supercon 2019 Badge is centered around the Lattice Semiconductor ECP5 FPGA. As far as we know this is the very first time that a conference decided to put an FPGA on their official badge! On top of that they chose an FPGA that is supported by the Open-Source FPGA flow that runs on any OS you might choose making it a very accessible FPGA platform. If you like those ideas make sure to hack on your badge, spred the word what you did and that you like that idea. Maybe other conferences will get inspired too.
+
+This workshop is a self-guided hands-on crash-course of how to program the "soft core" and it's peripherals on your badge. We will also briefly venture into building an alternative hardware design for our badge to see what amazing power is given to us by being able to modify the hardware without picking up a soldering iron or learning how to make your own semiconductors. ;)
+
+=== Hardware Overview
+
+Besides the FPGA part and if you grew up in the 90' you will recognize the shape. It is one of the most iconic handheld game consoles. That is still not enough to make the board interesting though. We will need some more chips and connectors to make it an interesting device.
+
+The badge hardware consists of the following components:
+
+* Lattice Semiconductor ECP5 FPGA: LFE5U-45F
+* Battery Power supply
+* 128MBit (16MByte) Serial Flash
+* Two 64MBit (8MByte) Serial RAM
+* 320 x 512 resolution LCD
+* Mono Audio amplifier
+* Eight Buttons
+* Eleven RGB LEDs
+* IrDA transceiver
+
+And a bunch of connections to the outside world:
+
+* Micro USB Connector
+* HDMI Video Connector
+* Cartridge Port
+* Two SAO Connectors
+* Pmod Connector
+* Speaker Connector
+* JTAG/UART Connector
+
+*insert hardware legend here*
+
+=== Gateware Overwiew
+
+The badge hardware by itself is not very useful by itself. We need a hardware design loaded into the FPGA. You can either let the logic itself do things or you can load a "Soft core" system on chip. Essentially programming the FPGA to behave like a microcontroller.
+
+Sprite_tm as the lead developer with contributions from the community put together a pretty cool retro gaming console inspired architecture. At it's core are two Open Source processor cores called picorv32, which in turn are an implementation of the open RISC-V Instruction Set Architecture (ISA) specification.
+
+The processor cores would not be very useful without any peripherals. So the official badge soc comes with the following peripherals:
+
+* Linerenderer graphics subsystem (outputs video to the LCD and HDMI at the same time)
+** Indexed color map with up to 256 24bit colors
+** Five graphics layers with 8 bit alpha channel
+*** Background
+*** Framebuffer
+*** Tilemap A
+*** Tilemap B
+*** Spritelayer
+** Amiga style Copper transformations
+* Audio subsystem
+** PCM
+*** 16 bit mono audio
+*** configurable audio
+*** FIFO based with interrupt support
+** Synthesizer
+*** 16 voices
+*** Sawtooth, Triangle, Pulse, Sub-Harmonic waveworms
+*** Configurable waveforms with subdivisible 4k wavetable
+*** Per-voice volume control
+*** Configurable attack/release time
+** Queued / Timed mode available (FIFO based with interrupt support)
+* UART (aka. serial)
+* IrDA (aka. infrared wireless)
+* Random Number Generator
+* Delta-Sigma ADC to measure battery voltage
+* USB, implements DFU bootloader and file system access to the flash
+
+=== Software Overview
+
+Your badge is coming with some software that is running on the Gateware. It consists of thee main components:
+
+* DFU Bootloader (allows us to reflash the Gateware)
+* IPL (Initial Program Loader) providing application file management over USB and loading your user applications
+* User Applications
+
+== Setting Up
+
+=== Get the toolchain
+
+If you did not already you will need to install the FPGA and RISC-V toolcahins first.
+
+You can download precompiled toolchain from:
+
+https://github.com/xobs/ecp5-toolchain/releases
+
+Download the version for your OS and make sure the `bin` subdirectory is in your $PATH environment variable. When you are done with that test the installation by making sure you can run `yosys`, `nextpnr-ecp5` and `riscv64-unknown-elf-gcc` from your command line.
+
+For additional information about tool installations you can also refer to the https://github.com/Spritetm/hadbadge2019_fpgasoc#how-to-use[badge documentation on github].
+
+You still might need a few additional tools installed on your system. Here is the list of the tools you might need to install too:
+
+* git
+* make
+
+_let us know if we missed any other dependencies here :D_
+
+NOTE: On Linux you might need to add a udev rule so that you get the needed permissions to access your badges USB interface. You will need to open `/etc/udev/reles.d/59-hadb19.rules` in a text editor and add the following rules in that file. When you change the rules make sure to unplug and plug in your badge again.
+
+```
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="614a", MODE="660", GROUP="plugdev", TAG+="uaccess"
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="614b", MODE="660", GROUP="plugdev", TAG+="uaccess"
+```
+
+=== Get the workshop repository
+
+You probably already have it on your drive as you are reading this, but for good measure here is how you obtain the workshop git repository:
+
+```
+git clone --recursive https://github.com/esden/hadbadge2019_workshops.git
+cd hadbadge2019_workshops/base
+```
+
+=== Build your first app
+
+Now that you have the toolchain and workshop repository installed we can try uploading your first app to the badge.
+
+* The skeleton program can be found in `hadbadge2019_workshops/base/app-basic-workshop`.
+* Run `make` and if everything goes well you should find a `basic-workshop.elf` in the same directory.
+* Power off your badge.
+* Plug in your badge into your computer over USB.
+* Power on the badge.
+* Your computer should automaticall mount your badge and appear as a drive.
+* Copy over the `basic-workshop.elf` to the badge.
+* Power the badge off and on again.
+* The badge should show a list of files and one of them should be the newly uploaded `basic-workshop.elf` file.
+* Press the `A` (`SW6`) button.
+
+Does it work? If you have any questions or run into trouble let any of the helpers know, we are here to help. If you are working on this outside of the Supercon workshops join the hackaday.io chat or the 1BitSquared discord.
+
+== First FPGA Badge Demo
+
+Now that we learned a bit about the badge and confirmed that the all the needed tools installed correctly we can get down to business and write a small demo effect. The badge Gateware design is on purpose designed to resemble a retro game console drawing on computer architectures from the 80' and 90' remixed with modern open source tools and cpu design.
+
+Our first program will be inspired by the Demoscene culture. We will be writing a small video effect that is rendering the graphics on the fly. No video file playback here! Demoscene is the art of showing your programming and artistic skills at the same time. But don't worry this one is very easy.
+
+First we have to learn a bit about the video hardware on the badge. We will gloss over most of it in sake of saving time and only talk about the hardware features we will need for our demo.
+
+If you look at our existing example program it consists of one `main.c` file. First thing you can see at the beginning of the `main` function is that we are using some strange macros `GFX_REG(GFXBGNDCOL_REG)`. This macro is expanded by the compiler to a specific addrss in the memory of our microcontroller. That address is wired directly to the video graphics hardware implemented in our FPGA.
+
+If we write to that register we are setting configuration of our graphics hardware that then runs in the background and displays things to our LCD and HDMI video outputs.
+
+The graphics hardware on the badge is based on multiple layers that are being automatically blended together, this way we don't have to have a very fast CPU that can quickly update the video memory to generate visual effects.
+
+We have 5 layers available:
+
+*The background layer:* it is a solid color that fills the screen. This is what is being set up first at the beginning of our program.
+
+*The framebuffer layer:* It is a bitmap that we can address each pixel individually to draw graphics on.
+
+*Two tilemap layers:* Maps of tiles composited together by the video hardware to draw graphics out of pre defined graphical blocks. They are always in a grid.
+
+*Sprite layer:* On this layer we can draw freely placable graphic elements.
+
+Currently the example program is only using the background and the first tile layer. It also uses a convenience API on top of the first tile layer that acts like a text console. You can write to it and manipulate it by using the `fprintf` function and escape codes.
+
+=== Play with the text console
+
+When we start our program IPL leaves us with a set of tiles that represent characters. Opening the `/dev/console` allows us to easily write text to the screen. As you see our code already uses an escape sequence. The console supports some more Escape sequences:
+
+* `\033nX` set cursor x position at `n`
+* `\033nY` set cursor y position at `n`
+* *todo* add more but need to test them...
+
+There is a bunch more, you can find their implementation in `hadbadge2019_workshops/base/fpgasoc/soc/ipl/gloss/consol_out.c`.
+
+Try writing a nice greeting text in the center of the screen.
+
+=== Create a framebuffer
+
+For our actual demo effect we will setup the framebuffer and draw our effect there.
+
+NOTE: I know it is bit hypocritical after raving about how the tile and sprite layers save us processing power but this is what I fealt like plaing with, so here we go. On the other hand it will show you why you want hardware acceleration at the end, so bare with me. :)
+
+...
+
+=== Create the color palette
+
+xxx
+
+=== Draw the palette on the screen
+
+xxx
+
+=== Draw random fire seeds
+
+xxx
+
+=== Render a frame af fire
+
+xxx
+
+=== Loop the animation
+
+xxx
+
+=== Optimize framerate
+
+xxx
+
+== A new SOC hardware
+
+xxx
+
+=== Build and load the new SOC
+
+xxx
+
+=== Use newly added hardware
+
+xxx
+
+== Conclusion
+
+xxx
+
