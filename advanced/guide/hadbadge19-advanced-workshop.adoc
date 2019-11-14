@@ -77,7 +77,7 @@ In this workshop we will focus on the following parts of the badge:
 * LEDs
 * Pmod connector
 
-*insert hardware legend here*
+image::had2019_badge_legend.png[]
 
 == Setting Up
 

@@ -60,7 +60,7 @@ And a bunch of connections to the outside world:
 * Speaker Connector
 * JTAG/UART Connector
 
-*insert hardware legend here*
+image::had2019_badge_legend.png[]
 
 === Gateware Overwiew
 
