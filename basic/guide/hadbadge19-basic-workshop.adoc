@@ -17,7 +17,7 @@ v0.1, 12 Nov 2019
 :toclevels: 2
 :toc-placement!:
 ifdef::env-github[]
-:imagesdir: https://github.com/securelyfitz/LabManuals/blob/master/images
+:imagesdir: https://github.com/esden/hadbadge2019_workshops/tree/master/basic/guide/images
 endif::[]
 
 include::sections/macros.adoc[]
