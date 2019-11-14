@@ -267,6 +267,8 @@ Now we can implement the actual fire effect.
 * Decrement the value of the resulting average by 1 if the value is greater than 0.
 * Store the resulting value to the pixel above your position.
 
+image::fire-effect-pixel-calculation.png[width=300%]
+
 NOTE: Don't forget to handle the first and last columns accordingly. For example don't add the pixel to your left when you are right at the left edge. ;)
 
 You can put all that code into a function so it is easier to call over and over again and to make your code easier to read.
