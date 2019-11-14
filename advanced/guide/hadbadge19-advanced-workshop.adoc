@@ -1,5 +1,5 @@
 = Advanced Hackaday Supercon 2019 Badge Hacking
-Piotr Esden-Tempski <piotr@1bitsquared.com>
+Piotr Esden-Tempski, Sophi Kravitz, Sylvain Munaut, Mike Walters and friends
 v0.1, 13 Nov 2019
 :doctype: book
 :imagesdir: images/
