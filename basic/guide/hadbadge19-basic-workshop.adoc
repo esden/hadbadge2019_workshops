@@ -47,7 +47,7 @@ The badge hardware consists of the following components:
 * 320 x 480 resolution LCD
 * Mono Audio amplifier
 * Eight Buttons
-* Eleven RGB LEDs
+* Eleven LEDs
 * IrDA transceiver
 
 And a bunch of connections to the outside world:
