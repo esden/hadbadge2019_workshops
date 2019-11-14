@@ -56,16 +56,12 @@ module top (
 
 	end
 
-	// BCD counter
-	bcd8_increment bot_inc (
-		.din(display_value),
-		.dout(display_value_inc)
-	);
+	assign display_value_inc = display_value + 8'b1;
 
 	// 7 segment display control
 	seven_seg_ctrl seven_segment_ctrl (
 		.clk(clk),
-		.din(lap_timeout ? lap_value[7:0] : display_value[7:0]),
+		.din(display_value[7:0]),
 		.dout(seven_segment)
 	);
 
