@@ -34,6 +34,8 @@ The Supercon 2019 Badge is centered around the Lattice Semiconductor ECP5 FPGA. 
 
 This workshop is a self-guided hands-on crash-course of how to program the "soft core" and it's peripherals on your badge. We will also briefly venture into building an alternative hardware design for our badge to see what amazing power is given to us by being able to modify the hardware without picking up a soldering iron or learning how to make your own semiconductors. ;)
 
+If you have any questions or run into trouble let any of the helpers know, we are here to help. If you are working on this outside of the Supercon workshops join the https://hackaday.io/messages/room/280647[hackaday.io Supercon Chat] or the https://1bitsquared.com/pages/chat[1BitSquared discord].
+
 === Hardware Overview
 
 Besides the FPGA part and if you grew up in the 90' you will recognize the shape. It is one of the most iconic handheld game consoles. That is still not enough to make the board interesting though. We will need some more chips and connectors to make it an interesting device.
@@ -102,8 +104,8 @@ The processor cores would not be very useful without any peripherals. So the off
 Your badge is coming with some software that is running on the Gateware. It consists of thee main components:
 
 * DFU Bootloader (allows us to reflash the Gateware)
-* IPL (Initial Program Loader) providing application file management over USB and loading your user applications
-* User Applications
+* IPL (Initial Program Loader) providing application file management over USB and loading and running your user applications
+* User applications
 
 == Setting Up
 
@@ -111,9 +113,7 @@ Your badge is coming with some software that is running on the Gateware. It cons
 
 If you did not already you will need to install the FPGA and RISC-V toolcahins first.
 
-You can download precompiled toolchain from:
-
-https://github.com/xobs/ecp5-toolchain/releases
+You can download precompiled toolchain from: https://github.com/xobs/ecp5-toolchain/releases
 
 Download the version for your OS and make sure the `bin` subdirectory is in your $PATH environment variable. When you are done with that test the installation by making sure you can run `yosys`, `nextpnr-ecp5` and `riscv64-unknown-elf-gcc` from your command line.
 
@@ -146,18 +146,20 @@ cd hadbadge2019_workshops/base
 
 Now that you have the toolchain and workshop repository installed we can try uploading your first app to the badge.
 
-* The skeleton program can be found in `hadbadge2019_workshops/base/app-basic-workshop`.
-* Run `make` and if everything goes well you should find a `basic-workshop.elf` in the same directory.
-* Power off your badge.
-* Plug in your badge into your computer over USB.
-* Power on the badge.
-* Your computer should automaticall mount your badge and appear as a drive.
-* Copy over the `basic-workshop.elf` to the badge.
-* Power the badge off and on again.
-* The badge should show a list of files and one of them should be the newly uploaded `basic-workshop.elf` file.
-* Press the `A` (`SW6`) button.
+. The skeleton program can be found in `hadbadge2019_workshops/base/app-basic-workshop`.
+. Run `make` and if everything goes well you should find a `basic-workshop.elf` in the same directory.
+. Power off your badge.
+. Plug in your badge into your computer over USB.
+. Power on the badge.
+. Your computer should automatically mount your badge and make it appear as a drive.
+. Copy over the `basic-workshop.elf` to the badge.
+. Power the badge off and on again.
+. The badge should show a list of files and one of them should be the newly uploaded `basic-workshop.elf` file.
+. Press the `A` (`SW6`) button.
 
-Does it work? If you have any questions or run into trouble let any of the helpers know, we are here to help. If you are working on this outside of the Supercon workshops join the hackaday.io chat or the 1BitSquared discord.
+* Does it work?
+* What does the application do?
+* Look into the `main.c` file and check if what you see on the LCD is what you should expect.
 
 NOTE: Make sure that when you are copying the `.elf` file to the badge that the copy process is really finished. In some cases the operating system buffers write operations to disks. This is meant to speed things up in normal use. In such case, the copying process might indicate that it finished, but the file is not actually fully written to the badge. On linux you can make sure the write process is finished by calling `sync`. This command will flush all your drive buffers and make sure data is all written physically to your drives.
 
@@ -333,6 +335,6 @@ I hope you had fun with this workshop. There is so much more to learn about the 
 
 Make sure to take part in the badge hacking that is happening all the time during Supercon.
 
-Shameless plug: Also if you want to have some more FPGA hardware to play with give the iCEBreaker a look. It is designed with FPGA beginners and developers in mind. It uses a smaller FPGA than the one on the badge but that results also in much faster synthesis times making the learning process slightly less cumbersome.
+Shameless plug: If you want to have some more FPGA hardware to play with give the https://1bitsquared.com/products/icebreaker[iCEBreaker] a look. It is designed with FPGA beginners and developers in mind. It uses a smaller FPGA than the one on the badge but plenty for a lot of applications.
 
 See you around! :D

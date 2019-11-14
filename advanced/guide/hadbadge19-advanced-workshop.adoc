@@ -36,6 +36,8 @@ This workshop is a self-guided hands-on crash-course of how to design your own d
 
 The objective of this workshop is to do something cool with FPGAs in only two hours. In order to introduce such a huge topic in such a short time, LOTS of details will be glossed over. Two hours from now you’re likely to have more questions about FPGAs than when you started - but at least you’ll know the important questions to ask if you choose to learn more.
 
+If you have any questions or run into trouble let any of the helpers know, we are here to help. If you are working on this outside of the Supercon workshops join the https://hackaday.io/messages/room/280647[hackaday.io Supercon Chat] or the https://1bitsquared.com/pages/chat[1BitSquared discord].
+
 === What We Won’t Learn
 
 In order to introduce Verilog and FPGAs in such a short time, we’re going to skip over several things that will be important when you build your own FPGA-based designs, but are not necessary to kickstart your tinkering:
@@ -85,9 +87,7 @@ image::had2019_badge_legend.png[]
 
 If you did not already you will need to install the FPGA toolchain first.
 
-You can download precompiled toolchain from:
-
-https://github.com/xobs/ecp5-toolchain/releases
+You can download precompiled toolchain from: https://github.com/xobs/ecp5-toolchain/releases
 
 Download the version for your OS and make sure the `bin` subdirectory is in your $PATH environment variable. When you are done with that test the installation by making sure you can run `yosys`, `nextpnr-ecp5` from your command line.
 
@@ -122,12 +122,11 @@ Now that everything is set up let's dive into it and build our first digital des
 
 === Configuring an FPGA
 
-Now that we are familiar with the hardware as-is, let’s walk through the process of synthesizing an FPGA design of your own and uploading it to the iCEBreaker. We will be using the amazing open source tools called icestorm, nextpnr and Yosys. We have configured and set up everything for you to get you going quickly.
+Now that we are familiar with the hardware as-is, let’s walk through the process of synthesizing an FPGA design of your own and uploading it to the badge. We will be using the amazing open source tools called prjtrellis, nextpnr and Yosys.
 
-. Power on your laptop and open the terminal:
-.. Open the command line terminal by clicking on the terminal icon in the task bar at the bottom of the laptop screen.
-.. Enter the badgee advanced workshop directory directory by typing `cd icebreaker-workshop/stopwatch`
-If it’s not already connected, plug your badge board into your laptop with a USB cable while holding the `SELECT` (`SW7`) button. The badge should power up with a splash screen saying that you are in the DFU (Device Firmware Upgrade) mode.
+. Open the command line terminal:
+.. Enter the badge advanced workshop directory directory by typing `cd icebreaker-workshop/stopwatch`
+.. If it’s not already connected, plug your badge board into your laptop with a USB cable while holding the `SELECT` (`SW7`) button. The badge should power up with a splash screen saying that you are in the DFU (Device Firmware Upgrade) mode.
 .. Run the build and upload process by executing make in the directory by typing: `make prog`
 .. Confirm that you were able to replace the default configuration with a new one by checking to see if the behavior has changed.
 .. Test the buttons and switches. Does this new configuration do anything useful?
@@ -141,7 +140,7 @@ Now that we know how to use the tools to configure our FPGA, let’s start by ex
 .. Next are `wire` definitions. Wires are used to directly connect inputs to one or more outputs.
 .. Next are parallel `assign` statements. All of these assignments are always happening, concurrently.
 .. Next are always blocks. These are blocks of statements that happen sequentially, and are triggered by the _sensitivity list_ contained in the following `@( )`.
-.. Finally we can instantiate modules. There are a few already instantiated and drive the 7-segment displays.
+.. Finally we can instantiate modules. There is one already instantiated and drive the 7-segment display.
 . Now let’s try and map our board’s functionality to the Verilog that makes it happen.
 .. What happened when you pressed buttons?
 .. Can you find the pushbuttons in the `module` definition? What are they called?
@@ -155,12 +154,12 @@ You should be able to trace the `btn[1]` and `btn[3]` push button inputs, throug
 
 Let’s start with some minor changes to our Verilog, then configure our board. We will be changing the way the four buttons (btn[0-3] aka _UP_, _DOWN_, _LEFT_, _RIGHT_) are affecting the five LED above the LCD screen (led[0-4]):
 
-. Change the assignments for led[0]..led[4] so that
-.. led[1] is on when buttons 1 and 2 are pressed.
-.. led[2] is on when buttons 1 and 3 are pressed.
-.. led[3] is on when buttons 2 and 3 are pressed.
-.. led[4] is on when the button 0 is pressed. For this one use the nbtn[0] that has inverted logic instead of the btn[0].
-.. led[5] is on when any of the four buttons is pressed.
+. Change the assignments for `led[0]`..`led[4]` so that
+.. `led[0]` is on when buttons 1 and 2 are pressed.
+.. `led[1]` is on when buttons 1 and 3 are pressed.
+.. `led[2]` is on when buttons 2 and 3 are pressed.
+.. `led[3]` is on when the button 0 is pressed. For this one use the nbtn[0] that has inverted logic instead of the btn[0].
+.. `led[4]` is on when any of the four buttons is pressed.
 . Next, we need to create a new configuration for our FPGA. Brace yourself - it will be really quick! ;-)
 .. Power off your badge, hold the _SELECT_ button (`SW7`), and power the badge on again. Make sure the DFU bootloader splash screen is visible.
 .. In the command line terminal that we opened earlier, type `make prog` or use the up arrow on your keyboard to recall the previous command, then press `enter`.
@@ -170,16 +169,18 @@ Let’s start with some minor changes to our Verilog, then configure our board. 
 (https://github.com/YosysHQ/nextpnr)
 .. When that completes, the fully laid out implementation needs to be packaged into a format for programming the FPGA. There are a number of options, but we will use a .bit bitstream file for programming over USB DFU interface using ecppack from the prjtrellis tool collection. (https://github.com/SymbiFlow/prjtrellis)
 .. Hopefully everything will go as planned. If you have issues, look in the console for possible build errors. If you have trouble, ask for help!
-.. Finally, the .bin file needs to be sent to the FPGA over USB. When this happens, the demo configuration will be cleared and the new design will take its place using the dfu-util tool.
+.. Finally, the .bit file needs to be sent to the FPGA over USB. When this happens, the demo configuration will be cleared and the new design will take its place using the dfu-util tool.
 .. Test your system. Did it do what you expected?
 
 === Add missing 7-segment digits
+
+If you have not done that already, this is the time to solder on the missing Pmod connector on the top edge of your badge. After you do that you should plug in the 7-segment display Pmod.
 
 The 7-segment display Pmod module that is attached to your badge has the following schematic.
 
 image::pmod-7segment-schematic.png[]
 
-As you can see in the verilog code the pins of the badge pmod get assigned a vectors of wires called `seven_segment` to map the Pmod pin vector to a bit vector. This makes handling and passing of the segments to modules easier.
+As you can see in the verilog code the pins of the badge pmod get assigned a vector of wires called `seven_segment`.
 
 These vectors are being fed through the module `seven_seg_ctrl` that switches very quickly between the two digits to create the impression that both segments are illuminated at the same time. That module in turn uses the `seven_seg_hex` module. The module `seven_seg_hex` is converting a 4-bit binary number into a 7-bit seven segment control vector.
 
@@ -205,7 +206,7 @@ image::7segment-segments.png[]
 
 === Switch to decimal counting
 
-The module `bcd16_increment` reads a 16-bit BCD (Binary Coded Decimal) number (a decimal digit in each nibble) and increments it by one. Replace the line assign `display_value_inc = display_value + 1;` with an instance of `bcd16_increment` so that the stop watch counts in decimal instead of hexadecimal.
+The module `bcd8_increment` reads a 8-bit BCD (Binary Coded Decimal) number (a decimal digit in each nibble) and increments it by one. Replace the line assign `display_value_inc = display_value + 1;` with an instance of `bcd8_increment` so that the stop watch counts in decimal instead of hexadecimal.
 
 (See the instances of `seven_seg_ctrl` for how to instantiate a module.)
 
@@ -246,6 +247,21 @@ You’ve now completed a basic calculator, that uses most of the core concepts u
 * Modify the design to flash the LEDs.
 * Modify the design to PWM fade the LEDs.
 * Add display dimming.
+* Add support for the 7-segment display to the Supercon Badge SOC so you can write to it from the C code?
+
+=== Getting back to the original badge SOC
+
+If you want to revert your badge to the original state. Follow these steps:
+
+Repower your badge while holding the SELECT (`SW7`) button, to enter the DFU mode.
+
+```
+git clone https://github.com/Spritetm/hadbadge2019_fpgasoc.git
+cd hadbadge2019_fpgasoc/soc
+make dfu_flash_all
+```
+
+This should bring your badge back to the same state as before the workshop.
 
 == Final notes
 
@@ -253,6 +269,6 @@ I hope you had fun with this workshop. There is so much more to learn about the 
 
 Make sure to take part in the badge hacking that is happening all the time during Supercon.
 
-Shameless plug: Also if you want to have some more FPGA hardware to play with give the iCEBreaker a look. It is designed with FPGA beginners and developers in mind. It uses a smaller FPGA than the one on the badge but that results also in much faster synthesis times making the learning process slightly less cumbersome.
+Shameless plug: If you want to have some more FPGA hardware to play with give the https://1bitsquared.com/products/icebreaker[iCEBreaker] a look. It is designed with FPGA beginners and developers in mind. It uses a smaller FPGA than the one on the badge but plenty for a lot of applications.
 
 See you around! :D
