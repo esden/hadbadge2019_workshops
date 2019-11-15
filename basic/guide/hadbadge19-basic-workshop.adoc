@@ -232,6 +232,12 @@ Now you can try out the palette that you have created. Just fill the framebuffer
 
 You can use the `FB_PIX` to make access to the frame buffer pixel entries bit easier.
 
+Another important step is to flush the cache. By default to speed up accesses, the CPU doesn't write back all the data immediately into the memory chips but keeps them locally in a small memory on the FPGA itself. But if you wan the pixel values to actually be seen on screen, they need to be written out to the actual RAM chips where the GPU can see them. For this we need to "flush the cache" :
+
+```
+cache_flush(fbmem, fbmem+FB_WIDTH*FB_HEIGHT);
+```
+
 How does it look? :D
 
 === Draw random fire seeds
