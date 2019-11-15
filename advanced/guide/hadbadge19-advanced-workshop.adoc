@@ -85,11 +85,11 @@ image::had2019_badge_legend.png[]
 
 === Get the toolchain
 
-If you did not already you will need to install the FPGA and RISC-V toolcahins first.
+If you did not already you will need to install the FPGA and RISC-V toolchains first.
 
 Follow the instructions in the official badge https://github.com/spritetm/hadbadge2019_fpgasoc#how-to-use[FPGA SOC Repository].
 
-If you have trouble with internet conectivity you can check the USB stick in your swag bag, the zip files containing the tools are on there. You will need to unzip them and add the `bin` directory to your `PATH` environment variable.
+If you have trouble with internet connectivity you can check the USB stick in your swag bag, the zip files containing the tools are on there. You will need to unzip them and add the `bin` directory to your `PATH` environment variable.
 
 === Get the workshop repository
 

@@ -17,8 +17,8 @@ to bore you with presentations.
 The self-directed part also means that you should be able to complete the
 workshop at your own speed by yourself. If you did not get a spot in the
 workshop but have the necessary hardware, you should be able to complete the
-class. If you have questions regarding the workshops 1BitSquared has created a
-channel for that on their Discord. Join us!
+class. If you have questions regarding the workshops [1BitSquared has created a
+supercon-fpga-badge channel for that on their Discord](https://1bitsquared.com/pages/chat). Join us!
 
 Also if you find mistakes anywhere send in a pull request or open an issue on
 the GitHub repository. :D

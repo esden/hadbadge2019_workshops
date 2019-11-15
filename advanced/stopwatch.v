@@ -3,14 +3,10 @@ module top (
 	input  clk,
 	input [7:0] nbtn,
 	output [10:0] ledc,
-	output [2:0] leda,
 	output [7:0] pmod,
 );
 	// Invert all buttons to make things easier
 	wire [7:0] btn = ~nbtn;
-
-	// Permanently enable green LEDs
-	assign leda = 3'b010;
 
 	// 7 segment control line bus
 	wire [7:0] seven_segment;

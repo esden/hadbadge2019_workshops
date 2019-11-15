@@ -220,7 +220,7 @@ If you are interested in learning more about the graphics subsystem. The documen
 
 === Create the color palette
 
-As described in the previous section, the framebuffer is using indexed color. To save you some time we have left a function to configure the color palette in the codebase. All you need to do is call the `crate_fire_palette();` function.
+As described in the previous section, the framebuffer is using indexed color. To save you some time we have left a function to configure the color palette in the codebase. All you need to do is call the `create_fire_palette();` function.
 
 This function steps through the palette entries and sets up the assigned colors.
 
