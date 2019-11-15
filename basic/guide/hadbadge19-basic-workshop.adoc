@@ -216,6 +216,8 @@ GFX_REG(GFX_FBADDR_REG)=((uint32_t)fbmem);
 
 * Fourth we have to tell the graphics hardware to enable the framebuffer layer. You can do that by adding two more bits to the `GFX_LAYEREN_REG` line `GFX_LAYEREN_FB_8BIT|GFX_LAYEREN_FB`. These two bits tell the graphics hardware to enable the layer and that we are using 8 bit pixel values. The alternative would be 4 bit values but would limit us to 128 palette colors.
 
+If you are interested in learning more about the graphics subsystem. The documentation is available here: https://github.com/Spritetm/hadbadge2019_fpgasoc/blob/master/doc/gfx.md
+
 === Create the color palette
 
 As described in the previous section, the framebuffer is using indexed color. To save you some time we have left a function to configure the color palette in the codebase. All you need to do is call the `crate_fire_palette();` function.
