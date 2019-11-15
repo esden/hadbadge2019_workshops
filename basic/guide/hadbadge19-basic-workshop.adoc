@@ -230,6 +230,8 @@ TIP: To achieve some demo effects you can draw on the layers once and only manip
 
 Now you can try out the palette that you have created. Just fill the framebuffer memory with values from 0 to 238. Remember that we only have 239 indices available as the first 16 are used by the text console tiles.
 
+You can use the `FB_PIX` to make access to the frame buffer pixel entries bit easier.
+
 How does it look? :D
 
 === Draw random fire seeds
@@ -240,7 +242,7 @@ First we need to populate the bottom most row of the framebuffer with random whi
 
 We can use another handy hardware feature. The random number generator. If you read a value from `MISC_REG(MISC_RNG_REG)` you will be provided with a word full of random bits.
 
-Use those random bits to fill the last line of the framebuffer (`y = FB_HEIGHT -1`) with 0 or 238. You can use the `FB_PIX` to make access to the frame buffer pixel entries bit easier.
+Use those random bits to fill the last line of the framebuffer (`y = FB_HEIGHT -1`) with 0 or 238.
 
 === Render a frame of fire
 
