@@ -85,27 +85,11 @@ image::had2019_badge_legend.png[]
 
 === Get the toolchain
 
-If you did not already you will need to install the FPGA toolchain first.
+If you did not already you will need to install the FPGA and RISC-V toolcahins first.
 
-You can download precompiled toolchain from: https://github.com/xobs/ecp5-toolchain/releases
+Follow the instructions in the official badge https://github.com/spritetm/hadbadge2019_fpgasoc#how-to-use[FPGA SOC Repository].
 
-Download the version for your OS and make sure the `bin` subdirectory is in your $PATH environment variable. When you are done with that test the installation by making sure you can run `yosys`, `nextpnr-ecp5` from your command line.
-
-For additional information about tool installations you can also refer to the https://github.com/Spritetm/hadbadge2019_fpgasoc#how-to-use[badge documentation on github].
-
-You still might need a few additional tools installed on your system. Here is the list of the tools you might need to install too:
-
-* git
-* make
-
-_let us know if we missed any other dependencies here :D_
-
-NOTE: On Linux you might need to add a udev rule so that you get the needed permissions to access your badges USB interface. You will need to open `/etc/udev/rules.d/59-hadb19.rules` in a text editor and add the following rules in that file. When you change the rules make sure to unplug and plug in your badge again.
-
-```
-ATTR{idVendor}=="1d50", ATTR{idProduct}=="614a", MODE="660", GROUP="plugdev", TAG+="uaccess"
-ATTR{idVendor}=="1d50", ATTR{idProduct}=="614b", MODE="660", GROUP="plugdev", TAG+="uaccess"
-```
+If you have trouble with internet conectivity you can check the USB stick in your swag bag, the zip files containing the tools are on there. You will need to unzip them and add the `bin` directory to your `PATH` environment variable.
 
 === Get the workshop repository
 
