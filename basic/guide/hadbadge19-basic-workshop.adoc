@@ -139,14 +139,14 @@ You probably already have it on your drive as you are reading this, but for good
 
 ```
 git clone --recursive https://github.com/esden/hadbadge2019_workshops.git
-cd hadbadge2019_workshops/base
+cd hadbadge2019_workshops/basic
 ```
 
 === Build your first app
 
 Now that you have the toolchain and workshop repository installed we can try uploading your first app to the badge.
 
-. The skeleton program can be found in `hadbadge2019_workshops/base/app-basic-workshop`.
+. The skeleton program can be found in `hadbadge2019_workshops/basic/app-basic-workshop`.
 . Run `make` and if everything goes well you should find a `basic-workshop.elf` in the same directory.
 . Power off your badge.
 . Plug in your badge into your computer over USB.
@@ -197,7 +197,7 @@ When we start our program IPL leaves us with a set of tiles that represent chara
 * `\033nY` set cursor y position at `n`
 * *todo* add more but need to test them...
 
-There is a bunch more, you can find their implementation in `hadbadge2019_workshops/base/fpgasoc/soc/ipl/gloss/consol_out.c`.
+There is a bunch more, you can find their implementation in `hadbadge2019_workshops/basic/fpgasoc/soc/ipl/gloss/console_out.c`.
 
 Try writing a nice greeting text in the center of the screen.
 
