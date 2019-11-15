@@ -1,5 +1,10 @@
 Welcome to the Hackaday 2019 Supercon Badge Workshop repository.
 
+For the workshop you will need to install the FPGA & RISC-V toolchain.
+
+Follow the instructions in the official badge fpgasoc repository: 
+https://github.com/spritetm/hadbadge2019_fpgasoc#how-to-use
+
 You will find two subdirectories in here:
 * basic -> the basic workshop
 * advanced -> the advanced workshop
