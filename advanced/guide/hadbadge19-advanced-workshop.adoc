@@ -237,7 +237,7 @@ You’ve now completed a basic calculator, that uses most of the core concepts u
 
 If you want to revert your badge to the original state. Follow these steps:
 
-Repower your badge while holding the SELECT (`SW7`) button, to enter the DFU mode.
+Power cycle your badge while holding the SELECT (`SW7`) button, to enter the DFU mode.
 
 ```
 git clone https://github.com/Spritetm/hadbadge2019_fpgasoc.git
