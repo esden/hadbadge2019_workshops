@@ -111,7 +111,7 @@ Your badge is coming with some software that is running on the Gateware. It cons
 
 === Get the toolchain
 
-If you did not already you will need to install the FPGA and RISC-V toolcahins first.
+If you did not already you will need to install the FPGA and RISC-V toolchains first.
 
 Follow the instructions in the official badge https://github.com/spritetm/hadbadge2019_fpgasoc#how-to-use[FPGA SOC Repository].
 
@@ -191,7 +191,7 @@ Most graphics system except the background color is based on indexed color. Inst
 
 For our actual demo effect we will setup the framebuffer and draw our effect there.
 
-NOTE: I know it is bit hypocritical after raving about how the tile and sprite layers save us processing power but this is what I fealt like plaing with, so here we go. On the other hand it will show you why you want hardware acceleration at the end, so bear with me. :)
+NOTE: I know it is bit hypocritical after raving about how the tile and sprite layers save us processing power but this is what I felt like playing with, so here we go. On the other hand it will show you why you want hardware acceleration at the end, so bear with me. :)
 
 You can add the framebuffrer memory allocation and config code right after the background config.
 
@@ -238,11 +238,11 @@ Now that we have the frame buffer set up and the color palette ready we can star
 
 First we need to populate the bottom most row of the framebuffer with random white/black pixels.
 
-We can use another handy hardware feature. The random number generator. If you read a value from `MISC_REG(MISC_NRG_REG)` you will be provided with a word full of random bits.
+We can use another handy hardware feature. The random number generator. If you read a value from `MISC_REG(MISC_RNG_REG)` you will be provided with a word full of random bits.
 
 Use those random bits to fill the last line of the framebuffer (`y = FB_HEIGHT -1`) with 0 or 238. You can use the `FB_PIX` to make access to the frame buffer pixel entries bit easier.
 
-=== Render a frame af fire
+=== Render a frame of fire
 
 Now we can implement the actual fire effect.
 
@@ -305,7 +305,7 @@ The badge should be behaving the same way as before after that.
 
 === Use newly added hardware
 
-If you read throught the diff you would see that there is a new definition in the `gloss` hardware register header. It is called `GFX_LAYEREN_FLT_GRAY` and can be set in the `GFX_LAYEREN_REG` register.
+If you read through the diff you would see that there is a new definition in the `gloss` hardware register header. It is called `GFX_LAYEREN_FLT_GRAY` and can be set in the `GFX_LAYEREN_REG` register.
 
 Change your demo code to toggle that bit.
 
