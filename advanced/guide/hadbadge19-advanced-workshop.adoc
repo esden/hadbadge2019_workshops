@@ -139,10 +139,10 @@ You should be able to trace the `btn[1]` and `btn[3]` push button inputs, throug
 Let’s start with some minor changes to our Verilog, then configure our board. We will be changing the way the four buttons (btn[0-3] aka _UP_, _DOWN_, _LEFT_, _RIGHT_) are affecting the five LED above the LCD screen (led[0-4]):
 
 . Change the assignments for `led[0]`..`led[4]` so that
-.. `led[0]` is on when buttons 1 and 2 are pressed.
-.. `led[1]` is on when buttons 1 and 3 are pressed.
-.. `led[2]` is on when buttons 2 and 3 are pressed.
-.. `led[3]` is on when the button 0 is pressed. For this one use the nbtn[0] that has inverted logic instead of the btn[0].
+.. `led[0]` is on when buttons 1 and 2 are pressed simultaneously.
+.. `led[1]` is on when buttons 1 and 3 are pressed simultaneously.
+.. `led[2]` is on when buttons 2 and 3 are pressed simultaneously.
+.. `led[3]` is on when the button 0 is pressed. For this one use the `nbtn[0]` that has inverted logic instead of the `btn[0]`.
 .. `led[4]` is on when any of the four buttons is pressed.
 . Next, we need to create a new configuration for our FPGA. Brace yourself - it will be really quick! ;-)
 .. Power off your badge, hold the _SELECT_ button (`SW7`), and power the badge on again. Make sure the DFU bootloader splash screen is visible.
