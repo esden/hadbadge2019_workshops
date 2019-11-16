@@ -247,6 +247,12 @@ make dfu_flash_all
 
 This should bring your badge back to the same state as before the workshop.
 
+Alternatively you can also download the golden images from https://github.com/Spritetm/hadbadge2019_fpgasoc/releases[Release page] and use :
+
+```
+dfu-util -d 1d50:614a,1d50:614b -a 0 -R -D soc.bit
+```
+
 == Final notes
 
 I hope you had fun with this workshop. There is so much more to learn about the badge itself as well as FPGA development.
