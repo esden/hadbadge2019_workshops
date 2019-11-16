@@ -109,7 +109,7 @@ Now that everything is set up let's dive into it and build our first digital des
 Now that we are familiar with the hardware as-is, let’s walk through the process of synthesizing an FPGA design of your own and uploading it to the badge. We will be using the amazing open source tools called prjtrellis, nextpnr and Yosys.
 
 . Open the command line terminal:
-.. Enter the badge advanced workshop directory directory by typing `cd icebreaker-workshop/stopwatch`
+.. Enter the badge advanced workshop directory directory by typing `cd hadbadge2019_workshops/advanced`
 .. If it’s not already connected, plug your badge board into your laptop with a USB cable while holding the `SELECT` (`SW7`) button. The badge should power up with a splash screen saying that you are in the DFU (Device Firmware Upgrade) mode.
 .. Run the build and upload process by executing make in the directory by typing: `make prog`
 .. Confirm that you were able to replace the default configuration with a new one by checking to see if the behavior has changed.
