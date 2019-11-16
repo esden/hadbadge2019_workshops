@@ -10,14 +10,16 @@ LOCATE COMP "ledc[2]" SITE "C3";
 LOCATE COMP "ledc[3]" SITE "C4";
 LOCATE COMP "ledc[4]" SITE "C2";
 LOCATE COMP "ledc[5]" SITE "B1";
-LOCATE COMP "ledc[6]" SITE "B20";
-LOCATE COMP "ledc[7]" SITE "B19";
-LOCATE COMP "ledc[8]" SITE "A18";
-LOCATE COMP "ledc[9]" SITE "K20";
-LOCATE COMP "ledc[10]" SITE "K19";
+LOCATE COMP "ledc[6]" SITE "K20";
+LOCATE COMP "ledc[7]" SITE "K19";
+LOCATE COMP "ledc[8]" SITE "B20";
+LOCATE COMP "ledc[9]" SITE "B19";
 LOCATE COMP "leda[0]" SITE "P19";
 LOCATE COMP "leda[1]" SITE "L18";
 LOCATE COMP "leda[2]" SITE "K18";
+
+/9, 8, 7, 11, 10
+
 
 IOBUF PORT "ledc[0]" IO_TYPE=LVCMOS33;
 IOBUF PORT "ledc[1]" IO_TYPE=LVCMOS33;
@@ -35,26 +37,24 @@ IOBUF PORT "leda[1]" IO_TYPE=LVCMOS33;
 IOBUF PORT "leda[2]" IO_TYPE=LVCMOS33;
 
 #buttons
-#All buttons are inverted
-# as in 0 when pressed and 1 when released
 #[7:0] = UDLRBAstartsel
-LOCATE COMP "nbtn[7]" SITE "E1"; #start
-LOCATE COMP "nbtn[6]" SITE "D2"; #select
-LOCATE COMP "nbtn[5]" SITE "E2"; #b
-LOCATE COMP "nbtn[4]" SITE "D1"; #a
-LOCATE COMP "nbtn[3]" SITE "F2"; #right
-LOCATE COMP "nbtn[2]" SITE "G2"; #left
-LOCATE COMP "nbtn[1]" SITE "C1"; #down
-LOCATE COMP "nbtn[0]" SITE "F1"; #up
+LOCATE COMP "btn[7]" SITE "E1"; #SW8 (start)
+LOCATE COMP "btn[6]" SITE "D2"; #SW7 (select)
+LOCATE COMP "btn[5]" SITE "E2"; #SW6 (b)
+LOCATE COMP "btn[4]" SITE "D1"; #SW5 (a)
+LOCATE COMP "btn[3]" SITE "F2"; #SW4 (right)
+LOCATE COMP "btn[2]" SITE "G2"; #SW3 (left)
+LOCATE COMP "btn[1]" SITE "C1"; #SW2 (down)
+LOCATE COMP "btn[0]" SITE "F1"; #SW1 (up)
 
-IOBUF PORT "nbtn[0]" IO_TYPE=LVCMOS33 PULLMODE=UP;
-IOBUF PORT "nbtn[1]" IO_TYPE=LVCMOS33 PULLMODE=UP;
-IOBUF PORT "nbtn[2]" IO_TYPE=LVCMOS33 PULLMODE=UP;
-IOBUF PORT "nbtn[3]" IO_TYPE=LVCMOS33 PULLMODE=UP;
-IOBUF PORT "nbtn[4]" IO_TYPE=LVCMOS33 PULLMODE=UP;
-IOBUF PORT "nbtn[5]" IO_TYPE=LVCMOS33 PULLMODE=UP;
-IOBUF PORT "nbtn[6]" IO_TYPE=LVCMOS33 PULLMODE=UP;
-IOBUF PORT "nbtn[7]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[0]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[1]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[2]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[3]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[4]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[5]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[6]" IO_TYPE=LVCMOS33 PULLMODE=UP;
+IOBUF PORT "btn[7]" IO_TYPE=LVCMOS33 PULLMODE=UP;
 
 #sound
 LOCATE COMP "pwmout" SITE "T1";
@@ -281,18 +281,14 @@ LOCATE COMP "sao2[3]" SITE "C17"; #drm
 LOCATE COMP "sao2[4]" SITE "B17"; #sda
 LOCATE COMP "sao2[5]" SITE "A16"; #scl
 
-# The pmod pins are marked in a reverse order on the PCB than the standard
-# To make it easier to work with existing Pmods
-# We are enumerating the pins closer to the standard
-# But the numbering should actually be 1-4 and 7-8
-LOCATE COMP "pmod[3]" SITE "A15"; #a1
-LOCATE COMP "pmod[2]" SITE "C16"; #a2
-LOCATE COMP "pmod[1]" SITE "A14"; #a3
-LOCATE COMP "pmod[0]" SITE "D16"; #a4
-LOCATE COMP "pmod[7]" SITE "B15"; #b1
-LOCATE COMP "pmod[6]" SITE "C15"; #b2
-LOCATE COMP "pmod[5]" SITE "A13"; #b3
-LOCATE COMP "pmod[4]" SITE "B13"; #b4
+LOCATE COMP "pmod[0]" SITE "A15"; #a1
+LOCATE COMP "pmod[1]" SITE "C16"; #a2
+LOCATE COMP "pmod[2]" SITE "A14"; #a3
+LOCATE COMP "pmod[3]" SITE "D16"; #a4
+LOCATE COMP "pmod[4]" SITE "B15"; #b1
+LOCATE COMP "pmod[5]" SITE "C15"; #b2
+LOCATE COMP "pmod[6]" SITE "A13"; #b3
+LOCATE COMP "pmod[7]" SITE "B13"; #b4
 
 IOBUF PORT "sao1[0]" IO_TYPE=LVCMOS33 PULLMODE=UP;
 IOBUF PORT "sao1[1]" IO_TYPE=LVCMOS33 PULLMODE=UP;
