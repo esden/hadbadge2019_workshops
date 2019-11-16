@@ -222,12 +222,12 @@ NOTE: The syntax `x = a ? b : c` can be used to assign value `b` to `x` when `a`
 
 === Exploring More
 
-You’ve now completed a basic calculator, that uses most of the core concepts used to design nearly all silicon devices in use today. If time permits, here are a few additional things you can explore or try with this board:
+You’ve now completed a basic stop watch, that uses most of the core concepts used to design nearly all silicon devices in use today. If time permits, here are a few additional things you can explore or try with this board:
 
 * What happens in overflow and carry situations? Can you make something different happen?
 * Can you display something other than numbers?
 * Examine the `had19_proto3.lpf` file. This contains all the mappings of the FPGA’s pins to the names you use in your code.
-* Add additional math functions to your stopwatch, like switching to displaying minutes and seconds when the seconds counter rolls over.
+* Add additional math functions to your stop watch, like switching to displaying minutes and seconds when the seconds counter rolls over.
 * Modify the design to flash the LEDs.
 * Modify the design to PWM fade the LEDs.
 * Add display dimming.
