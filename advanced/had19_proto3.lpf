@@ -40,8 +40,8 @@ IOBUF PORT "leda[2]" IO_TYPE=LVCMOS33;
 #[7:0] = UDLRBAstartsel
 LOCATE COMP "nbtn[7]" SITE "E1"; #start
 LOCATE COMP "nbtn[6]" SITE "D2"; #select
-LOCATE COMP "nbtn[5]" SITE "D1"; #a
-LOCATE COMP "nbtn[4]" SITE "E2"; #b
+LOCATE COMP "nbtn[5]" SITE "E2"; #b
+LOCATE COMP "nbtn[4]" SITE "D1"; #a
 LOCATE COMP "nbtn[3]" SITE "F2"; #right
 LOCATE COMP "nbtn[2]" SITE "G2"; #left
 LOCATE COMP "nbtn[1]" SITE "C1"; #down
