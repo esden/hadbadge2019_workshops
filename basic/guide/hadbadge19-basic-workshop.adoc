@@ -30,15 +30,15 @@ include::sections/objectives.adoc[]
 
 == Introduction
 
-The Supercon 2019 Badge is centered around the Lattice Semiconductor ECP5 FPGA. As far as we know this is the very first time that a conference decided to put an FPGA on their official badge! On top of that they chose an FPGA that is supported by the Open-Source FPGA flow that runs on any OS you might choose making it a very accessible FPGA platform. If you like those ideas make sure to hack on your badge, spred the word what you did and that you like that idea. Maybe other conferences will get inspired too.
+The Supercon 2019 Badge is centered around the Lattice Semiconductor ECP5 FPGA. As far as we know this is the very first time that a conference decided to put an FPGA on their official badge! On top of that they chose an FPGA that is supported by the Open-Source FPGA flow that runs on any OS you might choose making it a very accessible FPGA platform. If you like those ideas make sure to hack on your badge, spread the word of what you did and that you like the idea. Maybe other conferences will get inspired too.
 
-This workshop is a self-guided hands-on crash-course of how to program the "soft core" and it's peripherals on your badge. We will also briefly venture into building an alternative hardware design for our badge to see what amazing power is given to us by being able to modify the hardware without picking up a soldering iron or learning how to make your own semiconductors. ;)
+This workshop is a self-guided hands-on crash-course of how to program the "soft core" and its peripherals on your badge. We will also briefly venture into building an alternative hardware design for our badge to see what amazing power is given to us by being able to modify the hardware without picking up a soldering iron or learning how to make your own semiconductors. ;)
 
 If you have any questions or run into trouble let any of the helpers know, we are here to help. If you are working on this outside of the Supercon workshops join the https://hackaday.io/messages/room/280647[hackaday.io Supercon Chat] or the https://1bitsquared.com/pages/chat[1BitSquared discord].
 
 === Hardware Overview
 
-Besides the FPGA part and if you grew up in the 90' you will recognize the shape. It is one of the most iconic handheld game consoles. That is still not enough to make the board interesting though. We will need some more chips and connectors to make it an interesting device.
+If you grew up in the 90s you will certainly recognize the shape. It is one of the most iconic handheld game consoles. That alone is not enough to make the board interesting, though. We will need some more chips and connectors to make it an interesting device.
 
 The badge hardware consists of the following components:
 
@@ -46,11 +46,11 @@ The badge hardware consists of the following components:
 * Battery Power supply
 * 128MBit (16MByte) Serial Flash
 * Two 64MBit (8MByte) Serial RAM
-* 320 x 480 resolution LCD
-* Mono Audio amplifier
+* 320 x 480 Resolution LCD
+* Mono Audio Amplifier
 * Eight Buttons
 * Eleven LEDs
-* IrDA transceiver
+* IrDA Transceiver
 
 And a bunch of connections to the outside world:
 
@@ -66,11 +66,11 @@ image::had2019_badge_legend.png[]
 
 === Gateware Overwiew
 
-The badge hardware by itself is not very useful by itself. We need a hardware design loaded into the FPGA. You can either let the logic itself do things or you can load a "Soft core" system on chip. Essentially programming the FPGA to behave like a microcontroller.
+The badge hardware by itself is not very useful. We need a hardware design loaded into the FPGA. You can either let the logic itself do things or you can load a "Soft core" system on chip. Essentially programming the FPGA to behave like a microcontroller.
 
-Sprite_tm as the lead developer with contributions from the community put together a pretty cool retro gaming console inspired architecture. At it's core are two Open Source processor cores called picorv32, which in turn are an implementation of the open RISC-V Instruction Set Architecture (ISA) specification.
+Sprite_tm, as the lead developer with contributions from the community, put together a pretty cool retro gaming console-inspired architecture. At its core are two Open Source processor cores called picorv32, which in turn are an implementation of the open RISC-V Instruction Set Architecture (ISA) specification.
 
-The processor cores would not be very useful without any peripherals. So the official badge soc comes with the following peripherals:
+The processor cores would not be very useful without any peripherals. So the official badge SOC comes with the following peripherals:
 
 * Linerenderer graphics subsystem (outputs video to the LCD and HDMI at the same time)
 ** Indexed color map with up to 256 24bit colors
@@ -101,10 +101,10 @@ The processor cores would not be very useful without any peripherals. So the off
 
 === Software Overview
 
-Your badge is coming with some software that is running on the Gateware. It consists of thee main components:
+Your badge comes with some software running on the Gateware. It consists of three main components:
 
 * DFU Bootloader (allows us to reflash the Gateware)
-* IPL (Initial Program Loader) providing application file management over USB and loading and running your user applications
+* IPL (Initial Program Loader) providing application file management over USB and the ability to loadi and runn your user applications
 * User applications
 
 == Setting Up
@@ -149,27 +149,27 @@ NOTE: Make sure that when you are copying the `.elf` file to the badge that the 
 
 == First FPGA Badge Demo
 
-Now that we learned a bit about the badge and confirmed that the all the needed tools installed correctly we can get down to business and write a small demo effect. The badge Gateware design is on purpose designed to resemble a retro game console drawing on computer architectures from the 80' and 90' remixed with modern open source tools and cpu design.
+Now that we learned a bit about the badge and confirmed that the all the needed tools are installed correctly we can get down to business and write a small demo effect. The badge Gateware design is on purpose designed to resemble a retro game console drawing on computer architectures from the 80s and 90s remixed with modern open source tools and cpu design.
 
 Our first program will be inspired by the Demoscene culture. We will be writing a small video effect that is rendering the graphics on the fly. No video file playback here! Demoscene is the art of showing your programming and artistic skills at the same time. But don't worry this one is very easy.
 
 First we have to learn a bit about the video hardware on the badge. We will gloss over most of it in sake of saving time and only talk about the hardware features we will need for our demo.
 
-If you look at our existing example program it consists of one `main.c` file. First thing you can see at the beginning of the `main` function is that we are using some strange macros `GFX_REG(GFXBGNDCOL_REG)`. This macro is expanded by the compiler to a specific addrss in the memory of our microcontroller. That address is wired directly to the video graphics hardware implemented in our FPGA.
+If you look at our existing example program it consists of one `main.c` file. First thing you can see at the beginning of the `main` function is that we are using some strange macros `GFX_REG(GFXBGNDCOL_REG)`. This macro is expanded by the compiler to a specific address in the memory of our microcontroller. That address is wired directly to the video graphics hardware implemented in our FPGA.
 
-If we write to that register we are setting configuration of our graphics hardware that then runs in the background and displays things to our LCD and HDMI video outputs.
+If we write to that register we are configuration graphics hardware that then runs in the background and displays things to our LCD and HDMI video outputs.
 
 The graphics hardware on the badge is based on multiple layers that are being automatically blended together, this way we don't have to have a very fast CPU that can quickly update the video memory to generate visual effects.
 
 We have 5 layers available:
 
-*The background layer:* it is a solid color that fills the screen. This is what is being set up first at the beginning of our program.
+*The background layer*: It is a solid color that fills the screen. This is what is being set up first at the beginning of our program.
 
-*The framebuffer layer:* It is a bitmap that we can address each pixel individually to draw graphics on.
+*The framebuffer layer*: It is a bitmap that we can address each pixel individually to draw graphics on.
 
-*Two tilemap layers:* Maps of tiles composited together by the video hardware to draw graphics out of pre defined graphical blocks. They are always in a grid.
+*Two tilemap layers*: Maps of tiles composited together by the video hardware to draw graphics out of pre-defined graphical blocks. They are always in a grid.
 
-*Sprite layer:* On this layer we can draw freely placable graphic elements.
+*Sprite layer*: On this layer we can draw freely placeable graphic elements.
 
 Currently the example program is only using the background and the first tile layer. It also uses a convenience API on top of the first tile layer that acts like a text console. You can write to it and manipulate it by using the `fprintf` function and escape codes.
 
@@ -187,7 +187,7 @@ Try writing a nice greeting text in the center of the screen.
 
 === Create a framebuffer
 
-Most graphics system except the background color is based on indexed color. Instead of storing 24bits of color information for each pixel of tiles sprites and the framebuffer, we are only storing an index that points to a color palette with 256 entries. The graphics hardware on the fly converts the indexes into real 24bit colors that are then sent to the LCD or HDMI interface.
+Most graphics system except the background color is based on indexed color. Instead of storing 24bits of color information for each pixel of tiles sprites and the framebuffer, we are only storing an index that points to a color palette with 256 entries. The graphics hardware converts the indexes into real 24bit colors on the fly which are then sent to the LCD or HDMI interface.
 
 For our actual demo effect we will setup the framebuffer and draw our effect there.
 
@@ -205,7 +205,7 @@ The nice side effect of using calloc is that the memory will be initialized with
 ```
 GFX_REG(GFX_FBPITCH_REG)=(17<<GFX_FBPITCH_PAL_OFF)|(FB_WIDTH<<GFX_FBPITCH_PITCH_OFF);
 ```
-The first field in this register tells the graphics hardware that the framebuffer is using colors stored in the pallette from index number 17 to 255. This is essentially an offset added onto the color indices stored in the framebuffer. We need to leave the first 16 color palette entries for the tiles used for the text console. Down the road if you don't want to use those tiles, or replace them you can use the full color palette.
+The first field in this register tells the graphics hardware that the framebuffer is using colors stored in the palette from index number 17 to 255. This is essentially an offset added onto the color indexes stored in the framebuffer. We need to leave the first 16 color palette entries for the tiles used for the text console. Down the road if you don't want to use those tiles, or replace them you can use the full color palette.
 
 The second field tells the graphics hardware how wide the framebuffer is.
 
@@ -224,15 +224,15 @@ As described in the previous section, the framebuffer is using indexed color. To
 
 This function steps through the palette entries and sets up the assigned colors.
 
-TIP: To achieve some demo effects you can draw on the layers once and only manipulate the color palette entries to achieve interesting animated effects without having to manipulate a lot of memory. See for example "plasma" effect.
+TIP: To achieve some demo effects you can draw on the layers once and then you only need to manipulate the color palette entries to achieve interesting animated effects without having to manipulate a lot of memory. See for example "plasma" effect.
 
 === Draw the palette on the screen
 
-Now you can try out the palette that you have created. Just fill the framebuffer memory with values from 0 to 238. Remember that we only have 239 indices available as the first 16 are used by the text console tiles.
+Now you can try out the palette that you have created. Just fill the framebuffer memory with values from 0 to 238. Remember that we only have 239 indexes available as the first 16 are used by the text console tiles.
 
 You can use the `FB_PIX` to make access to the frame buffer pixel entries bit easier.
 
-Another important step is to flush the cache. By default to speed up accesses, the CPU doesn't write back all the data immediately into the memory chips but keeps them locally in a small memory on the FPGA itself. But if you wan the pixel values to actually be seen on screen, they need to be written out to the actual RAM chips where the GPU can see them. For this we need to "flush the cache" :
+Another important step is to flush the cache. By default to speed up accesses, the CPU doesn't write back all the data immediately into the memory chips but keeps them locally in a small memory on the FPGA itself. But if you want the pixel values to actually be seen on screen, they need to be written out to the actual RAM chips where the GPU can see them. For this we need to "flush the cache":
 
 ```
 cache_flush(fbmem, fbmem+FB_WIDTH*FB_HEIGHT);
@@ -277,15 +277,15 @@ Now that we have created one static frame of our fire effect. Try to write a loo
 
 You can check for a button press in that loop to exit your program gracefully.
 
-The current state of the buttons is stored in `MISC_REG(MISC_BTN_REG)` you can `&` it's value with `BUTTON_START` to mask out the other buttons. You can find the other defines and register definitions in `hadbadge2019_workshops-git/basic/fpgasoc/soc/ipl/gloss/mach_defines.h`.
+The current state of the buttons is stored in `MISC_REG(MISC_BTN_REG)` you can `&` its value with `BUTTON_START` to mask out the other buttons. You can find the other defines and register definitions in `hadbadge2019_workshops-git/basic/fpgasoc/soc/ipl/gloss/mach_defines.h`.
 
 === Optimize framerate
 
-Now that you have implemented the fire effect and it is animating you are probably bit disappointed about the framerate. Besides finding a faster processor we can also optimize our code a tiny bit.
+Now that you have implemented the fire effect and it is animating you are probably a bit disappointed about the framerate. Besides finding a faster processor we can also optimize our code a tiny bit.
 
-One possibility is to exit the rendering loop when we relize that all the pixels on the row we are on are equal to 0. This will essentially mean that there is only black left all the way to the end of the screen and there is nothing else for us to do.
+One possibility is to exit the rendering loop when we realize that all the pixels on the row we are on are equal to 0. This will essentially mean that there is only black left all the way to the end of the screen and there is nothing else for us to do.
 
-NOTE: Now that you arrived here there is less of a chance that we will spoil anything by telling you where to find our reference implementation of the effect. You can find it in the badge fpgasoc repository under the name `app-fire` and in the workshop repository in the `solution` directory. If you or your neighbor gets stuck someone probably point you to this note so you can take a look at the reference implementation. :)
+NOTE: Now that you arrived here there is less of a chance that we will spoil anything by telling you where to find our reference implementation of the effect. You can find it in the badge fpgasoc repository under the name `app-fire` and in the workshop repository in the `solution` directory. If you or your neighbor gets stuck someone will probably point you to this note so you can take a look at the reference implementation. :)
 
 == A new SOC hardware
 
@@ -305,15 +305,15 @@ cd soc
 make dfu_flash_all
 ```
 
-This build process will take a while. It is synthesizing the new bitstream for your FPGA, building the new IPL (which should not be really necessary in this particular case) and then uses DFU to load the new code onto your badge.
+This build process will take a while. It is synthesizing the new bitstream for your FPGA, building the new IPL (which should not be really necessary in this particular case) and finally using DFU to load the new code onto your badge.
 
 In some cases the synthesis fails with a timing error. In such case just run the `make` command once again and it should finish the process.
 
-The badge should be behaving the same way as before after that.
+The badge should now be behaving the same way as before.
 
 === Use newly added hardware
 
-If you read through the diff you would see that there is a new definition in the `gloss` hardware register header. It is called `GFX_LAYEREN_FLT_GRAY` and can be set in the `GFX_LAYEREN_REG` register.
+If you read through the diff you will see that there is a new definition in the `gloss` hardware register header. It is called `GFX_LAYEREN_FLT_GRAY` and can be set in the `GFX_LAYEREN_REG` register.
 
 Change your demo code to toggle that bit.
 
@@ -327,8 +327,8 @@ If you want to learn more and how to write some verilog continue to the advanced
 
 I hope you had fun with this workshop. There is so much more to learn about the badge itself as well as FPGA development.
 
-Make sure to take part in the badge hacking that is happening all the time during Supercon.
+Make sure to take part in the badge hacking that is happening the whole time during Supercon.
 
-Shameless plug: If you want to have some more FPGA hardware to play with give the https://1bitsquared.com/products/icebreaker[iCEBreaker] a look. It is designed with FPGA beginners and developers in mind. It uses a smaller FPGA than the one on the badge but plenty for a lot of applications.
+Shameless plug: If you want to have some more FPGA hardware to play with give the https://1bitsquared.com/products/icebreaker[iCEBreaker] a look. It is designed with FPGA beginners and developers in mind. It uses a smaller FPGA than the one on the badge but it's still plenty for a lot of applications.
 
 See you around! :D

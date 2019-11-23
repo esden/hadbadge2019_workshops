@@ -1,4 +1,4 @@
-/* vim: ts=4 st=4 : */
+/* vim: set ts=4 st=4 : */
 
 #include <stdint.h>
 #include <stdlib.h>
