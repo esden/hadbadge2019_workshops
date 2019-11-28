@@ -44,7 +44,7 @@ void create_fire_palette(void) {
 	}
 }
 
-void __render_fire(void) {
+void render_fire(void) {
 	/* draw randomized fire seed row */
 	uint32_t rnd;
 	for (int x = 0; x < FB_WIDTH; x++) {
@@ -134,6 +134,9 @@ void main(int argc, char **argv) {
 	// We're running in app context. We have full control over the badge and
 	// can do with the hardware what we want. As soon as main() returns,
 	// however, we will go back to the IPL.
+	// The printf output is sent to the physical UART available on the JTAG
+	// programming connector. You can connect a USB to Serial adapter to see
+	// this console output.
 	printf("fire app: main running\n");
 
 	// Blank out fb while we're loading stuff by disabling all layers. This
@@ -183,7 +186,7 @@ void main(int argc, char **argv) {
 	int bw = 0;
 	while(run) {
 		// Render a frame of the fire effect on the framebuffer layer
-		__render_fire();
+		render_fire();
 
 		// Exit when the start button is pressed
 		if (MISC_REG(MISC_BTN_REG) & BUTTON_START) {

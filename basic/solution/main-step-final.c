@@ -134,7 +134,7 @@ void main(int argc, char **argv) {
 	// We're running in app context. We have full control over the badge and
 	// can do with the hardware what we want. As soon as main() returns,
 	// however, we will go back to the IPL.
-	// The printf output is sent to the phisical UART available on the JTAG
+	// The printf output is sent to the physical UART available on the JTAG
 	// programming connector. You can connect a USB to Serial adapter to see
 	// this console output.
 	printf("fire app: main running\n");
