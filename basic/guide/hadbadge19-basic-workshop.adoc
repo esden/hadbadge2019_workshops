@@ -195,7 +195,7 @@ NOTE: I know it is bit hypocritical after raving about how the tile and sprite l
 
 You can add the framebuffrer memory allocation and config code right after the background config.
 
-* First we need to do is allocate some memory:
+* First thing we need to do is allocate some memory:
 ```
 fbmem=calloc(FB_WIDTH, FB_HEIGHT);
 ```
@@ -319,9 +319,9 @@ Change your demo code to toggle that bit.
 
 What happens?
 
-This is a very very simple demo what you can do if you can actually modify the hardware you are using.
+This is a very very simple demo of what you can do if you can actually modify the hardware you are using.
 
-If you want to learn more and how to write some verilog continue to the advanced class where we build some logic! :D
+If you want to learn more about how to write some verilog continue to the advanced class where we build some logic! :D
 
 == Final notes
 
