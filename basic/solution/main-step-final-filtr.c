@@ -1,3 +1,5 @@
+/* vim: set ts=4 sw=4 : */
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
