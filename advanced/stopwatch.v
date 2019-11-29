@@ -82,7 +82,7 @@ endmodule
 
 // Seven segment controller
 // Switches quickly between the two parts of the display
-// to create the illusion of both halfs being illuminated
+// to create the illusion of both halves being illuminated
 // at the same time.
 module seven_seg_ctrl (
 	input clk,
