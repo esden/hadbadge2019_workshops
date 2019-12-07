@@ -68,7 +68,7 @@ And a bunch of connections to the outside world:
 * HDMI Video Connector
 * Cartridge Port
 * Two SAO Connectors
-* PMOD Connector
+* Pmod Connector
 * Speaker Connector
 * JTAG/UART Connector
 
@@ -77,7 +77,7 @@ In this workshop we will focus on the following parts of the badge:
 * FPGA (duh)
 * Buttons
 * LEDs
-* PMOD connector
+* Pmod connector
 
 image::had2019_badge_legend.png[]
 
@@ -164,7 +164,7 @@ The 7-segment display Pmod module that is attached to your badge has the followi
 
 image::pmod-7segment-schematic.png[]
 
-As you can see in the verilog code the pins of the badge pmod get assigned a vector of wires called `seven_segment`.
+As you can see in the verilog code the pins of the badge Pmod get assigned a vector of wires called `seven_segment`.
 
 These vectors are being fed through the module `seven_seg_ctrl` that switches very quickly between the two digits to create the impression that both segments are illuminated at the same time. That module in turn uses the `seven_seg_hex` module. The module `seven_seg_hex` is converting a 4-bit binary number into a 7-bit seven segment control vector.
 

@@ -58,7 +58,7 @@ And a bunch of connections to the outside world:
 * HDMI Video Connector
 * Cartridge Port
 * Two SAO Connectors
-* PMOD Connector
+* Pmod Connector
 * Speaker Connector
 * JTAG/UART Connector
 
